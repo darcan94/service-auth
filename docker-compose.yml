@@ -2,14 +2,16 @@ version: '3.8'
 
 services:
   app:
-    image: openjdk:17-jdk-slim
+    image: maven:3.8.4-openjdk-17
     container_name: service-auth
     volumes:
       - ./:/src
+      - ~/.m2:/root/.m2
     working_dir: /src
-    command: ./mvnw spring-boot:run
+    command: mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     ports:
       - 8080:8080
+      - 5005:5005
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/authdb
       - SPRING_DATASOURCE_USERNAME=user
