@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    image: openjdk:17-jdk-slim
+    container_name: service-auth
+    volumes:
+      - ./:/src
+    working_dir: /src
+    command: ./mvnw spring-boot:run
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/authdb
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    container_name: service-auth_db
+    environment:
+      - POSTGRES_DB=authdb
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    shm_size: 128mb
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres_data:
