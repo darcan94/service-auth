@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     image: maven:3.8.4-openjdk-17
@@ -19,6 +17,20 @@ services:
     depends_on:
       - db
 
+  pgadmin:
+    image: elestio/pgadmin
+    container_name: service-auth_pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=darcanf.94@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=darcan94
+    volumes:
+      - pgadmin51:/var/lib/pgadmin
+    ports:
+      - 5058:80
+    depends_on:
+      - db
+    restart: unless-stopped
+
   db:
     image: postgres
     container_name: service-auth_db
@@ -35,3 +47,4 @@ services:
 
 volumes:
   postgres_data:
+  pgadmin51:
