@@ -14,7 +14,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         return http
-                //.csrf(csrf -> csrf.disable())  TODO: implementar cuando se auth por jwt
+                .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
                 //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) TODO: implementar cuando se auth por jwt
                 .authorizeHttpRequests(requests -> {
                     requests
