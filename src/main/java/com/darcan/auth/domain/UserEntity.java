@@ -1,30 +1,43 @@
 package com.darcan.auth.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class UserEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false, length = 30, unique = true)
     private String name;
 
+    @Column(nullable = false, length = 60, unique = true)
     private String email;
 
+    @Column(nullable = false, length = 200)
     private String password;
 
+    @Column(nullable = false, length = 60)
     private String firstName;
 
+    @Column(length = 60)
     private String lastName;
 
+    @Column(nullable = false, columnDefinition = "TINYINT")
     private boolean isActive;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserRoleEntity> roles;
 
     public long getId() {
         return id;
@@ -82,5 +95,7 @@ public class User {
         this.isActive = isActive;
     }
 
-    
+    public List<UserRoleEntity> getRoles() {
+        return roles;
+    }        
 }
