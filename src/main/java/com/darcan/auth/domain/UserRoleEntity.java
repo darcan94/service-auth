@@ -28,4 +28,30 @@ public class UserRoleEntity {
     @ManyToOne
     @JoinColumn(name = "username", referencedColumnName = "name",  insertable = false, updatable = false)
     private UserEntity user;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public LocalDateTime getGrantedDate() {
+        return grantedDate;
+    }
+
+    public void setGrantedDate(LocalDateTime grantedDate) {
+        this.grantedDate = grantedDate;
+    }
+
+    
 }

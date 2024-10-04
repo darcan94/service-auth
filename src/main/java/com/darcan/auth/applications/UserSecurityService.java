@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.darcan.auth.domain.UserEntity;
 import com.darcan.auth.domain.UserRepository;
+import com.darcan.auth.domain.UserRoleEntity;
 
 @Service
 public class UserSecurityService implements UserDetailsService{
@@ -23,11 +24,15 @@ public class UserSecurityService implements UserDetailsService{
                             () -> new UsernameNotFoundException("User " + name + " not found.")
                         );
         
-    
+        String[] roles = user.getRoles()
+                            .stream()
+                            .map(UserRoleEntity::getRole)
+                            .toArray(String[]::new);
+
         return User.builder()
                 .username(user.getName())
                 .password(user.getPassword())
-                .roles("ADMIN")
+                .roles(roles)
                 .build();
     }
     
