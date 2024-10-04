@@ -33,11 +33,11 @@ public class UserEntity {
     @Column(length = 60)
     private String lastName;
 
-    @Column(nullable = false, columnDefinition = "TINYINT")
+    @Column(nullable = false)
     private boolean isActive;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<UserRoleEntity> roles;
+    private List<UserRole> roles;
 
     public long getId() {
         return id;
@@ -95,7 +95,7 @@ public class UserEntity {
         this.isActive = isActive;
     }
 
-    public List<UserRoleEntity> getRoles() {
+    public List<UserRole> getRoles() {
         return roles;
     }        
 }

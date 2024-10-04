@@ -22,19 +22,19 @@ services:
     depends_on:
       - db
 
-  pgadmin:
-    image: elestio/pgadmin
-    container_name: service-auth_pgadmin
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=darcanf.94@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=darcan94
-    volumes:
-      - pgadmin51:/var/lib/pgadmin
-    ports:
-      - 5058:80
-    depends_on:
-      - db
-    restart: unless-stopped
+  #pgadmin:
+  #  image: elestio/pgadmin
+  #  container_name: service-auth_pgadmin
+  #  environment:
+  #    - PGADMIN_DEFAULT_EMAIL=darcanf.94@gmail.com
+  #    - PGADMIN_DEFAULT_PASSWORD=darcan94
+  #  volumes:
+  #    - pgadmin51:/var/lib/pgadmin
+  #  ports:
+  #    - 5058:80
+  #  depends_on:
+  #    - db
+  #  restart: unless-stopped
 
   db:
     image: postgres
@@ -52,4 +52,4 @@ services:
 
 volumes:
   postgres_data:
-  pgadmin51:
+  #pgadmin51:

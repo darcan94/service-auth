@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.darcan.auth.domain.UserEntity;
 import com.darcan.auth.domain.UserRepository;
-import com.darcan.auth.domain.UserRoleEntity;
+import com.darcan.auth.domain.UserRole;
 
 @Service
 public class UserSecurityService implements UserDetailsService{
@@ -26,7 +26,7 @@ public class UserSecurityService implements UserDetailsService{
         
         String[] roles = user.getRoles()
                             .stream()
-                            .map(UserRoleEntity::getRole)
+                            .map(UserRole::getRole)
                             .toArray(String[]::new);
 
         return User.builder()
