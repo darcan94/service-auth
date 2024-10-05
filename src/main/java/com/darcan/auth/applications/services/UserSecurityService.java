@@ -1,4 +1,4 @@
-package com.darcan.auth.applications;
+package com.darcan.auth.applications.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -24,6 +24,8 @@ public class UserSecurityService implements UserDetailsService{
                             () -> new UsernameNotFoundException("User " + name + " not found.")
                         );
         
+        System.out.println(user);
+
         String[] roles = user.getRoles()
                             .stream()
                             .map(UserRole::getRole)

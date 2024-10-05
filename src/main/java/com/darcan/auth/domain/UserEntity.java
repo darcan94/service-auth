@@ -97,5 +97,14 @@ public class UserEntity {
 
     public List<UserRole> getRoles() {
         return roles;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
+                + ", firstName=" + firstName + ", lastName=" + lastName + ", isActive=" + isActive + ", roles=" + roles
+                + "]";
     }        
+
+    
 }
