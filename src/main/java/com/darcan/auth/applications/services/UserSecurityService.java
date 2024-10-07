@@ -20,11 +20,7 @@ public class UserSecurityService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         UserEntity user = this.userRepository.findByName(name)
-                        .orElseThrow(
-                            () -> new UsernameNotFoundException("User " + name + " not found.")
-                        );
-        
-        System.out.println(user);
+                        .orElseThrow(() -> new UsernameNotFoundException("User " + name + " not found."));
 
         String[] roles = user.getRoles()
                             .stream()
