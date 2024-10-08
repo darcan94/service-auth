@@ -1,10 +1,10 @@
-package com.darcan.auth.adapters.web;
+package com.darcan.auth.Infraestucture.web;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.darcan.auth.adapters.config.JwtUtil;
-import com.darcan.auth.applications.dto.LoginDto;
+import com.darcan.auth.Infraestucture.security.JwtUtil;
+import com.darcan.auth.domain.dto.LoginDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

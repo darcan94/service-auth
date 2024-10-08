@@ -1,4 +1,4 @@
-package com.darcan.auth.applications.services;
+package com.darcan.auth.application.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -7,12 +7,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.darcan.auth.domain.UserEntity;
-import com.darcan.auth.domain.UserRepository;
-import com.darcan.auth.domain.UserRole;
+import com.darcan.auth.domain.models.UserEntity;
+import com.darcan.auth.domain.models.UserRole;
+import com.darcan.auth.domain.repositories.UserRepository;
 
 @Service
-public class UserSecurityService implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;

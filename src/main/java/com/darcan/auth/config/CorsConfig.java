@@ -1,4 +1,4 @@
-package com.darcan.auth.adapters.config;
+package com.darcan.auth.config;
 
 import java.util.Arrays;
 

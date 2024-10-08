@@ -1,4 +1,4 @@
-package com.darcan.auth.domain;
+package com.darcan.auth.domain.models;
 
 import java.util.Objects;
 import java.io.Serializable;
