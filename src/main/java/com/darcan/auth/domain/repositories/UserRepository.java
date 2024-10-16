@@ -7,4 +7,5 @@ import com.darcan.auth.domain.models.UserEntity;
 
 public interface UserRepository extends CrudRepository<UserEntity, Long>{
     Optional<UserEntity> findByName(String name);
+    boolean existsByNameOrEmail(String name, String email);    
 }
