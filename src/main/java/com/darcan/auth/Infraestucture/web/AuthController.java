@@ -10,11 +10,13 @@ import com.darcan.auth.domain.models.UserEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,6 +32,9 @@ public class AuthController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody LoginDto loginDto) {
@@ -51,19 +56,12 @@ public class AuthController {
     public ResponseEntity<Void> register(@RequestBody UserEntity user) {
         UserEntity registeredUser = userService.register(user);
 
-        UsernamePasswordAuthenticationToken login = new UsernamePasswordAuthenticationToken(
-            registeredUser.getName(), 
-            registeredUser.getPassword()
-        );
+        User userDetails = (User) this.userDetailsService.loadUserByUsername(registeredUser.getName());
 
-        Authentication authentication = this.authenticationManager.authenticate(login);
-
-        if(authentication.isAuthenticated()){
-            String jwt = this.jwtUtil.create(registeredUser.getName());
-
-            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
-        }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        UsernamePasswordAuthenticationToken authentication = 
+                    new UsernamePasswordAuthenticationToken(userDetails, null, null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = this.jwtUtil.create(registeredUser.getName());
+        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
     } 
 }

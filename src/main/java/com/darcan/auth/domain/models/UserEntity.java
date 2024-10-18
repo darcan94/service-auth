@@ -27,11 +27,11 @@ public class UserEntity {
     @Column(nullable = false, length = 200)
     private String password;
 
- /*    @Column(nullable = false, length = 60)
+    @Column(nullable = false, length = 60)
     private String firstName;
 
     @Column(length = 60)
-    private String lastName;*/
+    private String lastName;
 
     @Column(nullable = false)
     private boolean isActive;
@@ -71,7 +71,7 @@ public class UserEntity {
         this.password = password;
     }
 
-   /*  public String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -85,7 +85,7 @@ public class UserEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }*/
+    }
 
     public boolean isActive() {
         return isActive;
@@ -102,7 +102,7 @@ public class UserEntity {
     @Override
     public String toString() {
         return "UserEntity [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
-                +", isActive=" + isActive + ", roles=" + roles
+                + ", firstName=" + firstName + ", lastName=" + lastName + ", isActive=" + isActive + ", roles=" + roles
                 + "]";
     }  
 }
