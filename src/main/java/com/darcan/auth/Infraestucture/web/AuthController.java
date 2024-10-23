@@ -8,8 +8,12 @@ import com.darcan.auth.application.services.UserService;
 import com.darcan.auth.domain.dto.LoginDto;
 import com.darcan.auth.domain.models.UserEntity;
 
+import java.time.Duration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,20 +41,47 @@ public class AuthController {
     private UserDetailsService userDetailsService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginDto loginDto) {
-        UsernamePasswordAuthenticationToken login = new UsernamePasswordAuthenticationToken(
-            loginDto.username(), 
-            loginDto.password()
+    public ResponseEntity<Void> login(@RequestBody LoginDto loginDto ) {
+        Authentication authentication = this.authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                loginDto.username(), 
+                loginDto.password()
+            )
         );
-        Authentication authentication = this.authenticationManager.authenticate(login);
 
-        System.out.println(authentication.isAuthenticated());
-        System.out.println(authentication.getPrincipal());
+        if(!authentication.isAuthenticated()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         String jwt = this.jwtUtil.create(loginDto.username());
 
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
+        ResponseCookie cookie = ResponseCookie.from("token", jwt)
+            .httpOnly(true)
+            .secure(true)
+            .sameSite("Strict")
+            .domain("darcan.dev")
+            .maxAge(Duration.ofHours(1))
+            .build();
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+            .build();
     }    
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        ResponseCookie cookie = ResponseCookie.from("token", "")
+            .httpOnly(true)
+            .secure(true)
+            .sameSite("Strict")
+            .domain("darcan.dev")
+            .maxAge(0)
+            .build();
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+            .build();
+    }   
 
     @PostMapping("/signup")
     public ResponseEntity<Void> register(@RequestBody UserEntity user) {
